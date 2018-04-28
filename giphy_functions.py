@@ -4,7 +4,7 @@ import os
 from giphy_client.rest import ApiException
 from pprint import pprint
 
-GIPHY_API_KEY = os.environ['GIPHY_API_KEY']
+GIPHY_API_KEY = os.environ['GIF_GIPHY_API_KEY']
 
 def searchGif(q = 'cheeseburgers'):
     # create an instance of the API class
@@ -18,8 +18,7 @@ def searchGif(q = 'cheeseburgers'):
     try: 
         # Search Endpoint
         api_response = api_instance.gifs_search_get(GIPHY_API_KEY, q, limit=limit, offset=offset, rating=rating, lang=lang, fmt=fmt)
-    except ApiException as e:
-        print("Exception when calling DefaultApi->gifs_search_get: %s\n" % e)
+    except ApiException as e: raise
     
     return True
 
@@ -33,8 +32,7 @@ def getRandomGif(tag = 'burrito'):
         # Random Endpoint
         api_response = api_instance.gifs_random_get(GIPHY_API_KEY, tag=tag, rating=rating, fmt=fmt)
         return api_response.data
-    except ApiException as e:
-        print("Exception when calling DefaultApi->gifs_random_get: %s\n" % e)
+    except ApiException as e: raise
 
     return False
 

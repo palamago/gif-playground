@@ -69,8 +69,7 @@ def resizeFiles(filenames, metadata, direction="horizontal"):
 						
 						img = img.resize((w,h), Image.ANTIALIAS)
 						img.save(filename)
-				except IOError:
-						print ("cannot resize '%s'" % filename)
+				except IOError as e: raise
 
 		return True
 

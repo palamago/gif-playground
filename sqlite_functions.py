@@ -5,10 +5,8 @@ def create_connection_file(db_file):
 		""" create a database connection to a SQLite database """
 		try:
 				conn = sqlite3.connect(db_file)
-				print(sqlite3.version)
 				return conn
-		except Error as e:
-				print(e)
+		except Error as e: raise
 
 		return false;
 
@@ -19,8 +17,7 @@ def create_connection_memory():
 		try:
 				conn = sqlite3.connect(':memory:')
 				print(sqlite3.version)
-		except Error as e:
-				print(e)
+		except Error as e: raise
 		finally:
 				conn.close()
 
@@ -28,12 +25,12 @@ def create_table(conn, create_table_sql):
 		try:
 				c = conn.cursor()
 				c.execute(create_table_sql)
-		except Error as e:
-				print(e)
+		except Error as e: raise
 
 sql_create_log_table = """CREATE TABLE IF NOT EXISTS botlog (
 																		id integer PRIMARY KEY AUTOINCREMENT,
 																		uid integer NOT NULL,
+																		user text NOT NULL,
 																		tweet text NOT NULL,
 																		file text NOT NULL,
 																		datetime timestamp DEFAULT CURRENT_TIMESTAMP
@@ -45,15 +42,14 @@ def create_table_if_exists(conn):
 		else:
 				print("Error! cannot create the database connection.")
 
-def insert_new_response(conn, uid, tweet, file):
-	sql = '''INSERT INTO botlog(uid, tweet, file) VALUES(?,?,?)'''
+def insert_new_response(conn, uid, user, tweet, file):
+	sql = '''INSERT INTO botlog(uid, user, tweet, file) VALUES(?,?,?,?)'''
 	try:
 		cur = conn.cursor()
-		cur.execute(sql, (uid, tweet, file))
+		cur.execute(sql, (uid, user, tweet, file))
 		conn.commit()
 		return cur.lastrowid
-	except Error as e:
-			print(e)
+	except Error as e: raise
 	return False
 
 def get_last_uid(conn):
@@ -65,6 +61,5 @@ def get_last_uid(conn):
 			return "242613977966850048"
 		else:
 			return cur.fetchone()[0]
-	except Error as e:
-			print(e)
+	except Error as e: raise
 	return False

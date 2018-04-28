@@ -1,3 +1,4 @@
 .env
 *.pyc
 botlog.db
+gif-playground.log
