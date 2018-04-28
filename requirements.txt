@@ -1,2 +1,4 @@
 giphy_client==1.0.0
 tweepy==3.6.0
+Pillow==5.1.0
+numpy==1.8.0rc1

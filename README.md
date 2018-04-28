@@ -10,10 +10,10 @@ python gif_bot.py
 
 * Bash
 ```bash
-
+run-gif-playground.sh
 ```
 
 * Cron
 ```
-
+*/2 * * * * /path/to/run-gif-playground.sh >> /var/log/bots/gif-playground.log 2>&1
 ```
