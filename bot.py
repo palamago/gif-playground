@@ -6,7 +6,7 @@ import logging
 
 from gif_functions import gifConcat
 from giphy_functions import getRandomGifs
-from sqlite_functions import create_table_if_exists,create_connection_file, insert_new_response
+from sqlite_functions import create_table_if_exists,create_connection_file, insert_new_response, get_last_uid
 
 # DATA
 TW_CONSUMER_KEY = os.environ['TW_CONSUMER_KEY']
@@ -43,7 +43,8 @@ def mediaUpload(filename):
 
 #uid = a[0].id
 #what? fake uid
-uid = "242613977966850048"
+
+uid = get_last_uid(conn)
 
 while(True):
     sleep(5)
@@ -60,6 +61,5 @@ while(True):
         medias.append(mediaId)
         api.update_status(status=m, media_ids=medias, in_reply_to_status_id=i.id)
         uid = i.id
-        #print uid
         rowid = insert_new_response(conn,uid,i.text,img)
         print rowid
