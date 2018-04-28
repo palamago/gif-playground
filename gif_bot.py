@@ -37,36 +37,34 @@ def mediaUpload(filename):
     except Exception as e: raise
     return False
 
-
-logging.basicConfig(filename="gif-playground.log",
+#RUN
+logging.basicConfig(filename="gif_playground.log",
                     format='%(asctime)s %(levelname)s: %(message)s')
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
-#RUN
 uid = get_last_uid(conn)
 
-while(True):
-    time.sleep(15)
-    try:
-        mentions = api.mentions_timeline(uid)
-        log.info("Mentions: %d" %(len(mentions)))
-        for i in mentions:
-            start_time = time.time()
-            cleanText = i.text.replace("@git_play_bot","")
-            for u in i.entities["user_mentions"]:
-                cleanText = cleanText.replace("@"+u["screen_name"],"")
-            for h in i.entities["hashtags"]:
-                cleanText = cleanText.replace(" #"+h["text"],"")
-            m = "%s. By @%s. Via @giphy." %(cleanText, i.user.screen_name)
-            img = composeImage(cleanText)
-            mediaId = mediaUpload(img)
-            medias = list()
-            medias.append(mediaId)
-            api.update_status(status=m, media_ids=medias, in_reply_to_status_id=i.id)
-            uid = i.id
-            rowid = insert_new_response(conn,uid,i.user.screen_name,i.text,img)
-            log.info("%s -> %s secs" % (uid,round(time.time() - start_time)))
-    except Exception as e:
-        log.exception(sys.exc_info()[0])
-        time.sleep(30)
+time.sleep(30)
+
+try:
+    mentions = api.mentions_timeline(uid)
+    log.info("Mentions: %d" %(len(mentions)))
+    for i in mentions:
+        start_time = time.time()
+        cleanText = i.text.replace("@git_play_bot","")
+        for u in i.entities["user_mentions"]:
+            cleanText = cleanText.replace("@"+u["screen_name"],"")
+        for h in i.entities["hashtags"]:
+            cleanText = cleanText.replace(" #"+h["text"],"")
+        m = "%s. By @%s. Via @giphy." %(cleanText, i.user.screen_name)
+        img = composeImage(cleanText)
+        mediaId = mediaUpload(img)
+        medias = list()
+        medias.append(mediaId)
+        api.update_status(status=m, media_ids=medias, in_reply_to_status_id=i.id)
+        uid = i.id
+        rowid = insert_new_response(conn,uid,i.user.screen_name,i.text,img)
+        log.info("%s -> %s secs" % (uid,round(time.time() - start_time)))
+except Exception as e:
+    log.exception(sys.exc_info()[0])
