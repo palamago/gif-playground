@@ -45,8 +45,6 @@ log.setLevel(logging.DEBUG)
 
 uid = get_last_uid(conn)
 
-time.sleep(30)
-
 try:
     mentions = api.mentions_timeline(uid)
     log.info("Mentions: %d" %(len(mentions)))
