@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 if ! pgrep -fl "run-gif-playground.sh" > /dev/null
 then
-    echo "Running !"
+    	echo "Running !"
 else
-	cd /var/www/bots/gif-playground
-    python gif_bot.py
+	. .env
+	python gif_bot.py
 fi
