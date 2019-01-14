@@ -57,7 +57,7 @@ try:
             cleanText = cleanText.replace(" #"+h["text"],"")
         m = "%s. By @%s. Via @giphy." %(cleanText, i.user.screen_name)
 
-        if cleanText.find('+')!=-1:
+        if "+" in cleanText:
             img = composeImage(cleanText)
             mediaId = mediaUpload(img)
             medias = list()
