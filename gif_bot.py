@@ -4,8 +4,7 @@ import time
 import os
 import logging
 
-from gif_functions import gifConcat
-from giphy_functions import getRandomGifs
+from gif_functions import composeImage
 from sqlite_functions import create_table_if_exists,create_connection_file, insert_new_response, get_last_uid
 
 # DATA
@@ -21,13 +20,7 @@ api = tweepy.API(auth)
 conn = create_connection_file('botlog.db')
 create_table_if_exists(conn)
 
-# Search and generate image
-def composeImage(text = "latorre + batistuta"):
-	terms = list(map(lambda x: x.strip(), text.split('+')))
-	del terms[3:]
-	ok = getRandomGifs(terms)
-	final = gifConcat(terms)
-	return final
+
 
 #Upload file to tw
 def mediaUpload(filename):
@@ -63,10 +56,10 @@ try:
             mediaId = mediaUpload(img)
             medias = list()
             medias.append(mediaId)
-            api.update_status(status=m, media_ids=medias, in_reply_to_status_id=i.id)
+            #api.update_status(status=m, media_ids=medias, in_reply_to_status_id=i.id)
 
         uid = i.id
         rowid = insert_new_response(conn,uid,i.user.screen_name,i.text,img)
-        log.info("%s -> %s secs" % (uid,round(time.time() - start_time)))
+        log.info("%s: %s -> %s secs" % (uid,cleanText,round(time.time() - start_time)))
 except Exception as e:
     log.exception(sys.exc_info()[0])

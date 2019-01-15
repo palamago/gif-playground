@@ -4,3 +4,4 @@ botlog.db
 gif_playground.log
 *.sketch
 .vscode/
+.DS_Store

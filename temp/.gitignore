@@ -1,3 +1,4 @@
 # This directory must always exist, but stay empty for various important reasons.
 *
 !.gitignore
+.DS_Store
