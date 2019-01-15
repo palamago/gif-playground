@@ -56,7 +56,7 @@ try:
             mediaId = mediaUpload(img)
             medias = list()
             medias.append(mediaId)
-            #api.update_status(status=m, media_ids=medias, in_reply_to_status_id=i.id)
+            api.update_status(status=m, media_ids=medias, in_reply_to_status_id=i.id)
 
         uid = i.id
         rowid = insert_new_response(conn,uid,i.user.screen_name,i.text,img)
