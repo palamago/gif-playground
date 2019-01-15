@@ -42,7 +42,7 @@ def create_table_if_exists(conn):
 		else:
 				print("Error! cannot create the database connection.")
 
-def insert_new_response(conn, uid, user, tweet, file):
+def insert_new_response(conn, uid, user, tweet="", file=""):
 	sql = '''INSERT INTO botlog(uid, user, tweet, file) VALUES(?,?,?,?)'''
 	try:
 		cur = conn.cursor()

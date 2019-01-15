@@ -57,14 +57,16 @@ try:
             cleanText = cleanText.replace(" #"+h["text"],"")
         m = "%s. By @%s. Via @giphy." %(cleanText, i.user.screen_name)
 
-        if "+" in cleanText:
+        img = ""
+        if cleanText != "" and "+" in cleanText:
             img = composeImage(cleanText)
             mediaId = mediaUpload(img)
             medias = list()
             medias.append(mediaId)
             api.update_status(status=m, media_ids=medias, in_reply_to_status_id=i.id)
-            uid = i.id
-            rowid = insert_new_response(conn,uid,i.user.screen_name,i.text,img)
-            log.info("%s -> %s secs" % (uid,round(time.time() - start_time)))
+
+        uid = i.id
+        rowid = insert_new_response(conn,uid,i.user.screen_name,i.text,img)
+        log.info("%s -> %s secs" % (uid,round(time.time() - start_time)))
 except Exception as e:
     log.exception(sys.exc_info()[0])
